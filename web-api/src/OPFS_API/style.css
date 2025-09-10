@@ -1,0 +1,724 @@
+/* OPFS API - 간단하고 실용적인 스타일 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
+.opfs-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.opfs-header {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.opfs-header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.opfs-header p {
+  font-size: 1.1em;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.support-status {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid #e0e0e0;
+}
+
+.status-indicator {
+  font-size: 1.2em;
+}
+
+.status-indicator.success {
+  color: #4caf50;
+}
+
+.status-indicator.error {
+  color: #f44336;
+}
+
+/* Main Content */
+.opfs-main {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "operations manager"
+    "viewer viewer"
+    "guide guide";
+}
+
+/* File Operations */
+.file-operations {
+  grid-area: operations;
+  display: grid;
+  gap: 25px;
+}
+
+.operation-section {
+  background: rgba(248, 249, 250, 0.8);
+  padding: 25px;
+  border-radius: 15px;
+  border: 2px solid #e0e0e0;
+}
+
+.operation-section h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.3em;
+}
+
+.file-controls {
+  display: grid;
+  gap: 20px;
+}
+
+.input-group {
+  display: grid;
+  gap: 8px;
+}
+
+.input-group label {
+  font-weight: 600;
+  color: #333;
+}
+
+.input-group input,
+.input-group textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input-group textarea {
+  resize: vertical;
+  font-family: "Courier New", monospace;
+}
+
+.button-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.manager-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.storage-info {
+  display: grid;
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #333;
+}
+
+.info-item span {
+  font-family: "Courier New", monospace;
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* File Manager */
+.file-manager {
+  grid-area: manager;
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+}
+
+.manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.manager-header h3 {
+  color: #333;
+  font-size: 1.2em;
+}
+
+.file-list {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  color: #666;
+  padding: 40px 20px;
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 10px;
+  border: 2px dashed #dee2e6;
+}
+
+.file-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 15px;
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-item:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+  transform: translateY(-1px);
+}
+
+.file-icon {
+  font-size: 1.5em;
+}
+
+.file-info {
+  min-width: 0;
+}
+
+.file-name {
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-meta {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.file-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.file-action-btn {
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.file-action-btn:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.view-btn:hover {
+  background: rgba(23, 162, 184, 0.2);
+}
+
+.edit-btn:hover {
+  background: rgba(255, 193, 7, 0.2);
+}
+
+.delete-btn:hover {
+  background: rgba(220, 53, 69, 0.2);
+}
+
+/* File Viewer */
+.file-viewer {
+  grid-area: viewer;
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.viewer-header h3 {
+  color: #333;
+  font-size: 1.2em;
+}
+
+.viewer-info {
+  font-family: "Courier New", monospace;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.viewer-content {
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.viewer-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 10px;
+  border: 2px dashed #dee2e6;
+}
+
+.file-content {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.file-content pre {
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+/* Usage Guide */
+.usage-guide {
+  grid-area: guide;
+  display: grid;
+  gap: 25px;
+}
+
+.usage-guide h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.guide-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 25px;
+}
+
+.code-example,
+.features-info,
+.use-cases {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.code-example h3,
+.features-info h3,
+.use-cases h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+}
+
+.code-example pre {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+.code-example code {
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.features-info ul,
+.use-cases ul {
+  list-style: none;
+  margin-left: 0;
+}
+
+.features-info li,
+.use-cases li {
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.features-info li:before,
+.use-cases li:before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.features-info strong,
+.use-cases strong {
+  color: #667eea;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary,
+.btn-accent,
+.btn-danger,
+.btn-warning,
+.btn-small {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-align: center;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-accent {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-accent:hover {
+  background: #138496;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+.btn-warning {
+  background: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background: #e0a800;
+  transform: translateY(-2px);
+}
+
+.btn-small {
+  padding: 8px 12px;
+  font-size: 12px;
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #dee2e6;
+}
+
+.btn-small:hover {
+  background: #e9ecef;
+}
+
+/* Notifications */
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.notification-info {
+  background: linear-gradient(45deg, #17a2b8, #138496);
+}
+
+.notification-success {
+  background: linear-gradient(45deg, #28a745, #218838);
+}
+
+.notification-warning {
+  background: linear-gradient(45deg, #ffc107, #e0a800);
+  color: #333;
+}
+
+.notification-error {
+  background: linear-gradient(45deg, #dc3545, #c82333);
+}
+
+.notification-close {
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 5px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .opfs-main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "operations"
+      "manager"
+      "viewer"
+      "guide";
+  }
+
+  .guide-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .opfs-container {
+    padding: 10px;
+  }
+
+  .opfs-header {
+    padding: 20px;
+  }
+
+  .opfs-header h1 {
+    font-size: 2em;
+  }
+
+  .opfs-main {
+    padding: 20px;
+  }
+
+  .button-group {
+    grid-template-columns: 1fr;
+  }
+
+  .manager-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .file-item {
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+  }
+
+  .file-actions {
+    grid-column: 1 / -1;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .manager-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .viewer-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .notifications {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+
+  .opfs-header,
+  .opfs-main,
+  .operation-section {
+    background: rgba(44, 62, 80, 0.95);
+    color: #ecf0f1;
+  }
+
+  .opfs-header h1,
+  .operation-section h2,
+  .usage-guide h2 {
+    color: #ecf0f1;
+  }
+
+  .input-group label {
+    color: #bdc3c7;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    background: rgba(52, 73, 94, 0.8);
+    color: #ecf0f1;
+    border-color: #5a6c7d;
+  }
+
+  .file-manager,
+  .file-viewer,
+  .code-example,
+  .features-info,
+  .use-cases {
+    background: rgba(52, 73, 94, 0.9);
+    color: #ecf0f1;
+    border-color: #5a6c7d;
+  }
+
+  .manager-header h3,
+  .viewer-header h3,
+  .code-example h3,
+  .features-info h3,
+  .use-cases h3 {
+    color: #ecf0f1;
+  }
+
+  .file-content {
+    background: rgba(44, 62, 80, 0.8);
+    border-color: #5a6c7d;
+  }
+
+  .file-content pre {
+    color: #ecf0f1;
+  }
+
+  .code-example pre {
+    background: rgba(44, 62, 80, 0.8);
+    border-color: #5a6c7d;
+  }
+
+  .code-example code {
+    color: #ecf0f1;
+  }
+}
