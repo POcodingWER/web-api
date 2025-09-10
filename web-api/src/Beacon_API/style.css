@@ -1,0 +1,866 @@
+/* Beacon API - 데이터 전송 및 분석 스타일 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
+.beacon-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.beacon-header {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.beacon-header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.beacon-header p {
+  font-size: 1.1em;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.api-support {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.support-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.support-badge.supported {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 2px solid rgba(76, 175, 80, 0.3);
+}
+
+.support-badge.unsupported {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 2px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Main Content */
+.beacon-main {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 30px;
+}
+
+/* Analytics Section */
+.analytics-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+}
+
+.beacon-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.beacon-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.beacon-card.primary {
+  border-color: #667eea;
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.1),
+    rgba(118, 75, 162, 0.1)
+  );
+}
+
+.beacon-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Analytics Grid */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.metric-item {
+  text-align: center;
+  padding: 20px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.metric-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.metric-value {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 8px;
+  font-family: "Courier New", monospace;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Beacon Controls */
+.beacon-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-accent,
+.btn-warning,
+.btn-danger,
+.demo-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-accent {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-accent:hover {
+  background: #138496;
+  transform: translateY(-2px);
+}
+
+.btn-warning {
+  background: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background: #e0a800;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Performance Metrics */
+.performance-metrics {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.perf-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.perf-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.perf-value {
+  font-family: "Courier New", monospace;
+  font-weight: 600;
+  color: #667eea;
+}
+
+/* Demo Section */
+.demo-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.interaction-demo {
+  display: grid;
+  gap: 20px;
+}
+
+.interaction-demo p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.demo-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.demo-btn {
+  background: #28a745;
+  color: white;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 15px;
+}
+
+.demo-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.demo-btn.error-btn {
+  background: #dc3545;
+}
+
+.demo-btn.error-btn:hover {
+  background: #c82333;
+}
+
+/* Scroll Demo */
+.scroll-demo {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+.scroll-demo h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.scroll-content {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  background: white;
+}
+
+.filler-content {
+  display: grid;
+  gap: 20px;
+}
+
+.content-block {
+  padding: 20px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Error Log */
+.error-log {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.error-entry {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.error-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.error-type {
+  background: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.error-time {
+  font-size: 12px;
+  color: #666;
+  font-family: "Courier New", monospace;
+}
+
+.error-message {
+  font-weight: 600;
+  color: #dc3545;
+  margin-bottom: 5px;
+}
+
+.error-details {
+  font-size: 12px;
+  color: #666;
+  font-family: "Courier New", monospace;
+}
+
+.error-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Beacon Info Section */
+.beacon-info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+/* Transmission Log */
+.transmission-log {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.transmission-entry {
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid;
+}
+
+.transmission-entry.success {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.2);
+}
+
+.transmission-entry.failed {
+  background: rgba(244, 67, 54, 0.1);
+  border-color: rgba(244, 67, 54, 0.2);
+}
+
+.transmission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.transmission-status {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.transmission-time {
+  font-size: 12px;
+  color: #666;
+  font-family: "Courier New", monospace;
+}
+
+.transmission-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.transmission-type {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.transmission-size {
+  color: #666;
+  font-family: "Courier New", monospace;
+}
+
+/* Beacon Settings */
+.beacon-settings {
+  display: grid;
+  gap: 15px;
+}
+
+.setting-group {
+  display: grid;
+  gap: 8px;
+}
+
+.setting-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.setting-group input,
+.setting-group select {
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  transition: border-color 0.3s ease;
+}
+
+.setting-group input:focus,
+.setting-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.setting-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+/* Log Placeholders */
+.log-placeholder {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 30px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+}
+
+/* Usage Section */
+.usage-section {
+  grid-column: 1 / -1;
+}
+
+.usage-content {
+  display: grid;
+  gap: 25px;
+}
+
+.code-example {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+.code-example h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.code-example pre {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.use-cases {
+  background: rgba(76, 175, 80, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.use-cases h3 {
+  margin-bottom: 15px;
+  color: #4caf50;
+}
+
+.use-case-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.use-case-list li {
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.use-case-list li:before {
+  content: "📡";
+  position: absolute;
+  left: 0;
+}
+
+.use-case-list strong {
+  color: #4caf50;
+}
+
+/* Browser Support */
+.browser-support {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.browser-support h3 {
+  margin-bottom: 15px;
+  color: #667eea;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.support-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.browser-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.support-status {
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.support-status.supported {
+  color: #4caf50;
+}
+
+/* Notifications */
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.notification-info {
+  background: linear-gradient(45deg, #17a2b8, #138496);
+}
+
+.notification-success {
+  background: linear-gradient(45deg, #28a745, #218838);
+}
+
+.notification-warning {
+  background: linear-gradient(45deg, #ffc107, #e0a800);
+  color: #333;
+}
+
+.notification-error {
+  background: linear-gradient(45deg, #dc3545, #c82333);
+}
+
+.notification-close {
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 5px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .analytics-section,
+  .demo-section,
+  .beacon-info-section {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .demo-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .beacon-container {
+    padding: 10px;
+  }
+
+  .beacon-header {
+    padding: 20px;
+  }
+
+  .beacon-header h1 {
+    font-size: 2em;
+  }
+
+  .beacon-main {
+    padding: 20px;
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .beacon-controls,
+  .error-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .notifications {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+
+  .beacon-header,
+  .beacon-main,
+  .beacon-card {
+    background: rgba(44, 62, 80, 0.95);
+    color: #ecf0f1;
+    border-color: #5a6c7d;
+  }
+
+  .beacon-header h1,
+  .beacon-card h2 {
+    color: #ecf0f1;
+  }
+
+  .metric-item,
+  .perf-item,
+  .scroll-demo,
+  .error-log,
+  .transmission-log,
+  .code-example,
+  .support-item {
+    background: rgba(52, 73, 94, 0.8);
+    border-color: #5a6c7d;
+  }
+
+  .metric-label,
+  .perf-label,
+  .setting-group label {
+    color: #bdc3c7;
+  }
+
+  .setting-group input,
+  .setting-group select {
+    background: rgba(52, 73, 94, 0.8);
+    color: #ecf0f1;
+    border-color: #5a6c7d;
+  }
+
+  .log-placeholder {
+    color: #bdc3c7;
+    border-color: #5a6c7d;
+  }
+
+  .scroll-content {
+    background: rgba(52, 73, 94, 0.8);
+    border-color: #5a6c7d;
+  }
+}
+
+/* Animation effects */
+.metric-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(102, 126, 234, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.metric-item:hover::before {
+  left: 100%;
+}
+
+/* Beacon transmission animation */
+@keyframes beaconPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.transmission-entry.success {
+  animation: beaconPulse 0.5s ease-in-out;
+}
+
+/* Error entry shake animation */
+@keyframes errorShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.error-entry {
+  animation: errorShake 0.5s ease-in-out;
+}
