@@ -18,6 +18,8 @@ class WebWorkerAPI {
     this.isProcessingQueue = false;
     this.animationActive = false;
     this.animationInterval = null;
+    this.currentImageData = null;
+    this.currentCanvas = null;
     this.init();
   }
 
@@ -286,7 +288,6 @@ class WebWorkerAPI {
                       <div class="control-group">
                         <label for="imageFile">이미지 선택:</label>
                         <input type="file" id="imageFile" accept="image/*">
-                        <button id="loadSampleImage" class="btn-secondary">📷 샘플 이미지</button>
                       </div>
                       <div class="control-group">
                         <label for="imageFilter">필터 타입:</label>
@@ -899,14 +900,6 @@ class StatefulWorker {
       });
     }
 
-    // 샘플 이미지 로드
-    const loadSampleBtn = document.getElementById("loadSampleImage");
-    if (loadSampleBtn) {
-      loadSampleBtn.addEventListener("click", () => {
-        this.loadSampleImage();
-      });
-    }
-
     // 탭 버튼들
     const tabBtns = document.querySelectorAll(".tab-btn");
     tabBtns.forEach((btn) => {
@@ -1037,6 +1030,52 @@ class StatefulWorker {
       );
     } catch (error) {
       this.updateExperimentOutput(`❌ 오류: ${error.message}`);
+    }
+  }
+
+  handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // 이미지를 캔버스에 그려서 ImageData 생성
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = Math.min(img.width, 300);
+          canvas.height = Math.min(img.height, 300);
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          // ImageData 저장 (이미지 처리에 사용)
+          this.currentImageData = ctx.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+          this.currentCanvas = canvas;
+
+          // 원본 이미지 표시
+          const originalCanvas = document.getElementById("originalCanvas");
+          if (originalCanvas) {
+            const originalCtx = originalCanvas.getContext("2d");
+            originalCanvas.width = canvas.width;
+            originalCanvas.height = canvas.height;
+            originalCtx.drawImage(canvas, 0, 0);
+          }
+
+          this.showNotification(
+            "이미지가 업로드되었습니다! 이제 필터를 적용해보세요.",
+            "success"
+          );
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.showNotification("올바른 이미지 파일을 선택해주세요.", "warning");
     }
   }
 
@@ -1254,16 +1293,64 @@ class StatefulWorker {
       function handleImageProcessing(data) {
         const { filter, intensity, imageData } = data;
         
-        switch (filter) {
-          case 'grayscale':
-            return applyGrayscale(imageData, intensity);
-          case 'blur':
-            return applyBlur(imageData, intensity);
-          case 'sharpen':
-            return applySharpen(imageData, intensity);
-          default:
-            throw new Error('Unknown image filter: ' + filter);
+        console.log(\`이미지 처리 시작: \${filter} 필터, 강도: \${intensity}\`);
+        
+        // 이미지 필터 처리
+        const processed = new Uint8ClampedArray(imageData.length);
+        
+        for (let i = 0; i < imageData.length; i += 4) {
+          const r = imageData[i];
+          const g = imageData[i + 1];
+          const b = imageData[i + 2];
+          const a = imageData[i + 3];
+          
+          let newR, newG, newB;
+          
+          switch (filter) {
+            case 'grayscale':
+              const gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+              newR = newG = newB = gray;
+              break;
+            case 'blur':
+              newR = Math.max(0, Math.min(255, r + (Math.random() - 0.5) * intensity));
+              newG = Math.max(0, Math.min(255, g + (Math.random() - 0.5) * intensity));
+              newB = Math.max(0, Math.min(255, b + (Math.random() - 0.5) * intensity));
+              break;
+            case 'sharpen':
+              newR = Math.max(0, Math.min(255, r * (1 + intensity/100)));
+              newG = Math.max(0, Math.min(255, g * (1 + intensity/100)));
+              newB = Math.max(0, Math.min(255, b * (1 + intensity/100)));
+              break;
+            case 'edge':
+              // 간단한 엣지 검출 시뮬레이션
+              const edgeValue = Math.abs(r - g) + Math.abs(g - b) + Math.abs(b - r);
+              newR = newG = newB = Math.min(255, edgeValue * (intensity/50));
+              break;
+            case 'emboss':
+              // 엠보싱 효과 시뮬레이션
+              newR = Math.max(0, Math.min(255, r + (intensity/2) - 64));
+              newG = Math.max(0, Math.min(255, g + (intensity/2) - 64));
+              newB = Math.max(0, Math.min(255, b + (intensity/2) - 64));
+              break;
+            default:
+              newR = r;
+              newG = g;
+              newB = b;
+          }
+          
+          processed[i] = newR;
+          processed[i + 1] = newG;
+          processed[i + 2] = newB;
+          processed[i + 3] = a;
         }
+        
+        return { 
+          processed: Array.from(processed), 
+          originalSize: imageData.length,
+          filter: filter,
+          intensity: intensity,
+          message: \`\${filter} 필터 적용 완료\`
+        };
       }
 
       // 흑백 필터
@@ -2236,37 +2323,96 @@ class StatefulWorker {
         return;
       }
 
-      const filterType = document.getElementById("filterType")?.value || "blur";
+      const filterType =
+        document.getElementById("imageFilter")?.value || "blur";
       const intensity = parseInt(
         document.getElementById("filterIntensity")?.value || "50"
       );
+
+      let imageData;
+
+      // 업로드된 이미지가 있으면 사용, 없으면 샘플 데이터 생성
+      if (this.currentImageData) {
+        imageData = Array.from(this.currentImageData.data);
+      } else {
+        // 샘플 이미지 데이터 생성
+        const sampleData = new Uint8ClampedArray(100 * 100 * 4); // 100x100 RGBA
+        for (let i = 0; i < sampleData.length; i += 4) {
+          sampleData[i] = Math.random() * 255; // R
+          sampleData[i + 1] = Math.random() * 255; // G
+          sampleData[i + 2] = Math.random() * 255; // B
+          sampleData[i + 3] = 255; // A
+        }
+        imageData = Array.from(sampleData);
+        this.showNotification(
+          "샘플 이미지로 처리합니다. 실제 이미지를 업로드해보세요!",
+          "info"
+        );
+      }
 
       this.showNotification(
         `${filterType} 이미지 필터를 적용합니다...`,
         "info"
       );
 
-      // 간단한 이미지 데이터 생성 (실제로는 Canvas에서 가져옴)
-      const imageData = new Uint8ClampedArray(100 * 100 * 4); // 100x100 RGBA
-      for (let i = 0; i < imageData.length; i += 4) {
-        imageData[i] = Math.random() * 255; // R
-        imageData[i + 1] = Math.random() * 255; // G
-        imageData[i + 2] = Math.random() * 255; // B
-        imageData[i + 3] = 255; // A
-      }
+      const startTime = performance.now();
 
       const result = await this.executeTask({
         command: "imageProcessing",
-        data: { filterType, intensity, imageData: Array.from(imageData) },
+        data: { filter: filterType, intensity, imageData },
       });
 
+      const endTime = performance.now();
+
+      // 결과 표시
       const resultDiv = document.getElementById("imageResult");
       if (resultDiv) {
-        resultDiv.textContent = `이미지 처리 완료: ${filterType} 필터 적용됨`;
+        resultDiv.innerHTML = `
+          <div class="image-result">
+            <h4>처리 결과</h4>
+            <p>필터: ${result.filter}</p>
+            <p>강도: ${result.intensity}</p>
+            <p>처리 시간: ${(endTime - startTime).toFixed(2)}ms</p>
+            <p>원본 크기: ${result.originalSize} 픽셀</p>
+            <p>${result.message}</p>
+          </div>
+        `;
+      }
+
+      // 처리된 이미지를 캔버스에 표시 (업로드된 이미지가 있는 경우)
+      if (this.currentImageData && this.currentCanvas) {
+        const processedCanvas = document.getElementById("processedCanvas");
+        if (processedCanvas) {
+          const processedCtx = processedCanvas.getContext("2d");
+          processedCanvas.width = this.currentCanvas.width;
+          processedCanvas.height = this.currentCanvas.height;
+
+          const newImageData = processedCtx.createImageData(
+            this.currentCanvas.width,
+            this.currentCanvas.height
+          );
+
+          // 처리된 데이터를 ImageData에 복사
+          for (
+            let i = 0;
+            i < result.processed.length && i < newImageData.data.length;
+            i++
+          ) {
+            newImageData.data[i] = result.processed[i];
+          }
+
+          processedCtx.putImageData(newImageData, 0, 0);
+
+          // 처리 상태 업데이트
+          const statusElement = document.getElementById("processingStatus");
+          if (statusElement) {
+            statusElement.textContent = `${result.filter} 필터 적용 완료!`;
+          }
+        }
       }
 
       this.showNotification("이미지 처리가 완료되었습니다", "success");
-      this.recordTask("imageProcessing", performance.now() - Date.now(), true);
+      this.recordTask("imageProcessing", endTime - startTime, true);
     } catch (error) {
       console.error("이미지 처리 오류:", error);
       this.showNotification(`이미지 처리 오류: ${error.message}`, "error");
