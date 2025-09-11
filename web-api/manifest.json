@@ -1,0 +1,172 @@
+{
+  "name": "Web APIs Demo - Progressive Web App",
+  "short_name": "Web APIs PWA",
+  "description": "웹 API들을 체험할 수 있는 Progressive Web App 데모입니다. Service Worker, 캐싱, 오프라인 기능, Push 알림 등을 지원합니다.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#6366f1",
+  "background_color": "#0f172a",
+  "scope": "/",
+  "lang": "ko",
+  "dir": "ltr",
+  "categories": [
+    "developer",
+    "utilities",
+    "demo"
+  ],
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa-icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/pwa-screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "데스크톱에서의 Web APIs PWA 화면"
+    },
+    {
+      "src": "/pwa-screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "모바일에서의 Web APIs PWA 화면"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "알림 테스트",
+      "short_name": "알림",
+      "description": "Notifications API 테스트",
+      "url": "/src/Notifications_API",
+      "icons": [
+        {
+          "src": "/notification-shortcut-icon.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "캐시 관리",
+      "short_name": "캐시",
+      "description": "PWA 캐시 관리",
+      "url": "/src/PWA#cache",
+      "icons": [
+        {
+          "src": "/cache-shortcut-icon.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "오프라인 모드",
+      "short_name": "오프라인",
+      "description": "오프라인 기능 테스트",
+      "url": "/src/PWA#offline",
+      "icons": [
+        {
+          "src": "/offline-shortcut-icon.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://web-apis-demo.example.com/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false,
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": [
+            "image/*",
+            "text/*",
+            "application/json"
+          ]
+        }
+      ]
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/handle-file",
+      "accept": {
+        "application/json": [
+          ".json"
+        ],
+        "text/plain": [
+          ".txt",
+          ".md"
+        ],
+        "image/*": [
+          ".png",
+          ".jpg",
+          ".jpeg",
+          ".gif",
+          ".webp",
+          ".svg"
+        ]
+      }
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+webapis",
+      "url": "/handle-protocol?url=%s"
+    }
+  ],
+  "capture_links": "new-client",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "handle_links": "preferred",
+  "id": "web-apis-pwa-demo",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}

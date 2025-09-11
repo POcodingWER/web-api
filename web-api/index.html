@@ -1,11 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web APIs</title>
+
+  <!-- 37: PWA (Progressive Web App) 위한 메타테그들-->
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- PWA 메타 태그 -->
+  <meta name="theme-color" content="#6366f1" />
+  <meta name="description" content="웹 API들을 체험할 수 있는 Progressive Web App 데모입니다." />
+
+  <!-- Apple PWA 지원 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Web APIs PWA" />
+  <link rel="apple-touch-icon" href="/vite.svg" />
+
+  <!-- Microsoft PWA 지원 -->
+  <meta name="msapplication-TileColor" content="#6366f1" />
+  <meta name="msapplication-tap-highlight" content="no" />
 </head>
 
 <body>
@@ -81,9 +99,9 @@
   <!-- 35: Stream API -->
   <!-- <script type="module" src="/src/Stream_API"></script> -->
   <!-- 36: Notifications API -->
-  <script type="module" src="/src/Notifications_API"></script>
+  <!-- <script type="module" src="/src/Notifications_API"></script> -->
   <!-- 37: PWA (Progressive Web App) -->
-  <!-- <script type="module" src="/src/PWA"></script> -->
+  <script type="module" src="/src/PWA"></script>
   <!-- 38: Web Animations API -->
   <!-- <script type="module" src="/src/Web_Animations_API"></script> -->
   <!-- 39: Performance API -->
