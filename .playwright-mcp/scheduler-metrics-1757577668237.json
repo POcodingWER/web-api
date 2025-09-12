@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-09-11T08:01:08.237Z",
+  "metrics": {
+    "totalTasks": 0,
+    "completedTasks": 0,
+    "cancelledTasks": 0,
+    "averageExecutionTime": 0,
+    "priorityDistribution": {
+      "user-blocking": 0,
+      "user-visible": 0,
+      "background": 0
+    }
+  },
+  "queue": [],
+  "monitoring": {
+    "executionTimes": [
+      300.2000000178814,
+      800.2000000178814,
+      1500.4000000059605
+    ],
+    "queueSizes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "priorityThroughput": [],
+    "responseTimes": [],
+    "timestamps": [
+      1757577642948,
+      1757577643750,
+      1757577645254
+    ]
+  }
+}
